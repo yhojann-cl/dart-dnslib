@@ -17,8 +17,8 @@ class DnsServer {
         required this.host,
         this.port = 53, // Default port
         this.protocol = DnsProtocol.udp, // Default protocol
-        this.path = '/dns-query', // Default path
-        this.headers = const { // Default headers
+        this.path = '/dns-query', // Default path for DoH
+        this.headers = const { // Default headers for DoH
             'Accept': 'application/dns-message',
             'Content-Type': 'application/dns-message',
             'Connection': 'close',

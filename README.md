@@ -26,7 +26,7 @@ required.
 
 ## Installation
 
-From the [pub.dev](https://pub.dev/) repository using
+From the [pub.dev](https://pub.dev/packages/dnslib) repository using
 command `dart pub add dnslib`.
 
 
@@ -44,7 +44,7 @@ DNSClient // Returns a Future<List<DNSResponseRecord>>
     )
     .then((records) {
         for (DNSResponseRecord record in records)
-            print(record); // By default print in josn format
+            print(record); // By default print in json format
     })
     .catchError((error) { // Catch any error here
         throw error;
@@ -69,8 +69,8 @@ const DnsServer({
     required this.host,
     this.port = 53, // Default port
     this.protocol = DnsProtocol.udp, // Default protocol
-    this.path = '/dns-query', // Default path
-    this.headers = const { // Default headers
+    this.path = '/dns-query', // Default path for DoH
+    this.headers = const { // Default headers for DoH
         'Accept': 'application/dns-message',
         'Content-Type': 'application/dns-message',
         'Connection': 'close',
