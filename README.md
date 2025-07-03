@@ -26,7 +26,7 @@ required.
 
 ## Installation
 
-From the [pub.dev](https://pub.dev/packages/multicast_dns) repository using
+From the [pub.dev](https://pub.dev/) repository using
 command `dart pub add dnslib`.
 
 
@@ -36,7 +36,7 @@ command `dart pub add dnslib`.
 import 'package:dnslib/dnslib.dart';
 
 // Create query
-await DNSClient
+DNSClient // Returns a Future<List<DNSResponseRecord>>
     .query(
         domain: 'example.com',
         dnsRecordType: DNSRecordTypes.findByName('A'),
@@ -49,6 +49,12 @@ await DNSClient
     .catchError((error) { // Catch any error here
         throw error;
     });
+```
+
+You can use a sync method:
+
+```dart
+final List<DNSResponseRecord> records = await DNSClient.query( // ...
 ```
 
 You can see more examples in the [example](example/) directory.
