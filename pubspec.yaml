@@ -2,7 +2,7 @@ name: dnslib
 description: A DNS client library for Dart.
 version: 1.0.1
 license: MIT
-# repository: https://github.com/my_org/my_repo
+repository: https://github.com/yhojann-cl/dart-dnslib
 
 environment:
   sdk: ^3.8.1

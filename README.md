@@ -100,4 +100,4 @@ class DNSClient {
 ## Contributions
 
 This project is open source and under active development. Contributions, bug
-reports, and suggestions are welcome via [GitHub](https://github.com/yhojann-cl/dnslib).
+reports, and suggestions are welcome via [GitHub](https://github.com/yhojann-cl/dart-dnslib).
