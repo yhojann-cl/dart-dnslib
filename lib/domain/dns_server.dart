@@ -7,6 +7,8 @@ import './dns_protocol.dart' show DnsProtocol;
  */
 class DnsServer {
 
+    final String? name;
+    final String? description;
     final String host;
     final int port;
     final String path;
@@ -15,6 +17,8 @@ class DnsServer {
 
     const DnsServer({
         required this.host,
+        this.name,
+        this.description,
         this.port = 53, // Default port
         this.protocol = DnsProtocol.udp, // Default protocol
         this.path = '/dns-query', // Default path for DoH
@@ -27,6 +31,8 @@ class DnsServer {
 
     @override
     String toString() => jsonEncode({
+        'name': name,
+        'description': description,
         'host': host,
         'port': port,
         'path': path,

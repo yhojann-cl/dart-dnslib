@@ -11,17 +11,17 @@ class APLPrefix {
     final int family;
     final int prefix;
     final bool negation;
-    final String address;
+    final InternetAddress ip;
 
     APLPrefix({
         required this.family,
         required this.prefix,
         required this.negation,
-        required this.address,
+        required this.ip,
     });
 
     @override
-    String toString() => '${negation ? '!' : ''}$family:$address/$prefix';
+    String toString() => '${negation ? '!' : ''}${family}:${ip.address}/${prefix}';
 }
 
 
@@ -78,7 +78,7 @@ class APLResponseRecord extends DNSResponseRecord {
                 family: family,
                 prefix: prefix,
                 negation: negation,
-                address: ip.address,
+                ip: ip,
             ));
         }
 

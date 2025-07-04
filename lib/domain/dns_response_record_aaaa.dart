@@ -1,4 +1,5 @@
 import 'dart:convert' show jsonEncode;
+import 'dart:io' show InternetAddress;
 import 'dart:typed_data' show Uint8List;
 import './dns_response_record.dart' show DNSResponseRecord;
 
@@ -10,7 +11,7 @@ class AAAAResponseRecord extends DNSResponseRecord {
     
     final String name;
     final int ttl;
-    final String ip;
+    final InternetAddress ip;
 
     AAAAResponseRecord({
         required this.name,
@@ -43,7 +44,8 @@ class AAAAResponseRecord extends DNSResponseRecord {
         return AAAAResponseRecord(
             name: name,
             ttl: ttl,
-            ip: _ip);
+            ip: InternetAddress.tryParse(_ip)!
+        );
     }
     
     @override
@@ -54,6 +56,6 @@ class AAAAResponseRecord extends DNSResponseRecord {
         'type': type,
         'name': name,
         'ttl': ttl,
-        'ip': ip,
+        'ip': ip.address,
     });
 }

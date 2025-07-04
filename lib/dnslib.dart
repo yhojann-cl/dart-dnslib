@@ -45,6 +45,7 @@ export 'domain/dns_protocol.dart' show DnsProtocol;
 
 // Repository
 export 'repository/dns_record_types.dart' show DNSRecordTypes;
+export 'repository/dns_servers.dart' show DnsServers;
 
 // Main client
 export 'service/dns_client.dart' show DNSClient;
