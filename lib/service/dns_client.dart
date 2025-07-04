@@ -63,10 +63,19 @@ class DNSClient {
 
             // Construye el paquete de consulta DNS
             final Uint8List query = _buildQuery(domain, dnsRecordType);
+            
+            // Transform hostname to ip address
+            InternetAddress? addr = InternetAddress.tryParse(dnsServer.host);
+            if(addr == null) {
+                addr = (await InternetAddress.lookup(dnsServer.host))
+                    .firstWhere((i) => i.type == InternetAddressType.IPv4);
+                if(addr == null)
+                    throw ArgumentError('Host not found: ${dnsServer.host}');
+            }
 
             // Envia el paquete al servidor DNS vía UDP
             final RawDatagramSocket socket = await RawDatagramSocket.bind(InternetAddress.anyIPv4, 0);
-            socket.send(query, InternetAddress(dnsServer.host), dnsServer.port);
+            socket.send(query, addr!, dnsServer.port);
 
             // Timeout
             final timer = Timer(Duration(milliseconds: timeout), () {
