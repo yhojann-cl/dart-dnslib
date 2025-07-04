@@ -1,8 +1,8 @@
-## 1.0.4
+## 1.1.4
 
 - Add support for use a hostname instead of ip address for udp connections.
 
-## 1.0.3
+## 1.1.3
 
 - Examples separation.
 - Add a name servers repository.
