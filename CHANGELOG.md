@@ -1,3 +1,7 @@
+## 1.1.6
+
+- Fix inmutability problems.
+
 ## 1.1.5
 
 - Add support for set properties to DnsServer object (final declarations).
