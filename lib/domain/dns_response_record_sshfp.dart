@@ -50,12 +50,15 @@ class SSHFPResponseRecord extends DNSResponseRecord {
     String get type => 'SSHFP';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
         'algorithm': algorithm,
         'fingerprintType': fingerprintType,
         'fingerprint': fingerprintToHex(fingerprint),
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

@@ -1,3 +1,6 @@
+import 'dart:convert' show jsonEncode;
+
+
 class DNSRecordType {
 
     final String name;
@@ -15,4 +18,17 @@ class DNSRecordType {
         required this.isSpecial,
         required this.isObsolete,
     });
+
+    @override
+    Map<String, dynamic> toJson() => {
+        'name': name,
+        'id': id,
+        'isCommon': isCommon,
+        'isSpecial': isSpecial,
+        'isObsolete': isObsolete,
+        'rfc': rfc,
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

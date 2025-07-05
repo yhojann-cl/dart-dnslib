@@ -53,12 +53,15 @@ class DHCIDResponseRecord extends DNSResponseRecord {
     String get type => 'DHCID';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
         'identifierType': identifierType,
         'digestAlgorithm': digestAlgorithm,
         'base64': base64,
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

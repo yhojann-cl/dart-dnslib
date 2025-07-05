@@ -59,7 +59,7 @@ class DLVResponseRecord extends DNSResponseRecord {
     String get type => 'DLV';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
@@ -67,5 +67,8 @@ class DLVResponseRecord extends DNSResponseRecord {
         'algorithm': algorithm,
         'digestType': digestType,
         'hexDigest': hexDigest,
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

@@ -1,3 +1,8 @@
+## 1.2.7
+
+- Improves Json serialization for all response objects.
+- Translate binary pparameters values to string format for https and svcb types.
+
 ## 1.1.6
 
 - Fix inmutability problems.

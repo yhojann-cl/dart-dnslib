@@ -39,10 +39,13 @@ class NSResponseRecord extends DNSResponseRecord {
     String get type => 'NS';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
         'nameserver': nameserver,
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

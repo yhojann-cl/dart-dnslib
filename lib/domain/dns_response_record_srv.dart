@@ -52,7 +52,7 @@ class SRVResponseRecord extends DNSResponseRecord {
     String get type => 'SRV';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
@@ -60,5 +60,8 @@ class SRVResponseRecord extends DNSResponseRecord {
         'weight': weight,
         'port': port,
         'target': target,
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

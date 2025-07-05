@@ -70,7 +70,7 @@ class NAPTRResponseRecord extends DNSResponseRecord {
     String get type => 'NAPTR';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
@@ -80,5 +80,8 @@ class NAPTRResponseRecord extends DNSResponseRecord {
         'services': services,
         'regexp': regexp,
         'replacement': replacement,
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

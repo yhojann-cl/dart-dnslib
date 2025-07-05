@@ -50,7 +50,7 @@ class KEYResponseRecord extends DNSResponseRecord {
     String get type => 'KEY';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
@@ -58,5 +58,8 @@ class KEYResponseRecord extends DNSResponseRecord {
         'protocol': protocol,
         'algorithm': algorithm,
         'publicKey': base64.encode(publicKey),
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

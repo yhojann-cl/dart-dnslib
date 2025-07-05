@@ -43,11 +43,14 @@ class RPResponseRecord extends DNSResponseRecord {
     String get type => 'RP';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
         'mboxDName': mboxDName,
         'txtDName': txtDName,
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

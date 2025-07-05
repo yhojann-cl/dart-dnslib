@@ -12,7 +12,7 @@ class HTTPSResponseRecord extends DNSResponseRecord {
   
     final int priority;
     final String targetName;
-    final Map<int, Uint8List> params;
+    final Map<String, String> params;
 
     HTTPSResponseRecord({
         required String name,
@@ -39,7 +39,7 @@ class HTTPSResponseRecord extends DNSResponseRecord {
         final (offs, hostname) = DNSHelper.parseDomainName(bytes, i);
         i = offs;
 
-        final Map<int, Uint8List> params = {};
+        final Map<int, Uint8List> _params = { };
         while (i < offset + length) {
             if (i + 4 > bytes.length)
                 break;
@@ -49,8 +49,42 @@ class HTTPSResponseRecord extends DNSResponseRecord {
 
             if (i + valueLength > bytes.length)
                 break;
-            params[key] = bytes.sublist(i, i + valueLength);
+            _params[key] = bytes.sublist(i, i + valueLength);
             i += valueLength;
+        }
+
+        final Map<int, String> knownKeys = {
+            1: 'alpn',
+            3: 'port',
+            4: 'ipv4hint',
+            6: 'ipv6hint',
+        };
+
+        final Map<String, String> decoded = { };
+        for (final entry in _params.entries) {
+            final key = entry.key;
+            final val = entry.value;
+            final name = knownKeys[key] ?? 'key$key';
+            late String value;
+
+            switch (key) {
+                case 1:
+                    value = _decodeAlpn(val);
+                    break;
+                case 3:
+                    value = _decodePort(val);
+                    break;
+                case 4:
+                    value = _decodeIPv4Hint(val);
+                    break;
+                case 6:
+                    value = _decodeIPv6Hint(val);
+                    break;
+                default:
+                    value = val.map((b) => b.toRadixString(16).padLeft(2, '0')).join('');
+            }
+
+            decoded[name] = value;
         }
 
         return HTTPSResponseRecord(
@@ -58,7 +92,7 @@ class HTTPSResponseRecord extends DNSResponseRecord {
             ttl: ttl,
             priority: priority,
             targetName: hostname,
-            params: params);
+            params: decoded);
     }
 
     static String _decodeAlpn(Uint8List value) {
@@ -100,54 +134,19 @@ class HTTPSResponseRecord extends DNSResponseRecord {
         return ((value[0] << 8) | value[1]).toString();
     }
 
-    static String _prettyPrintParams(Map<int, Uint8List> params) {
-        final Map<int, String> knownKeys = {
-            1: 'alpn',
-            3: 'port',
-            4: 'ipv4hint',
-            6: 'ipv6hint',
-        };
-
-        final Map<String, String> decoded = {};
-        for (final entry in params.entries) {
-            final key = entry.key;
-            final val = entry.value;
-            final name = knownKeys[key] ?? 'key$key';
-            late String human;
-
-            switch (key) {
-                case 1:
-                    human = _decodeAlpn(val);
-                    break;
-                case 3:
-                    human = _decodePort(val);
-                    break;
-                case 4:
-                    human = _decodeIPv4Hint(val);
-                    break;
-                case 6:
-                    human = _decodeIPv6Hint(val);
-                    break;
-                default:
-                    human = val.map((b) => b.toRadixString(16).padLeft(2, '0')).join('');
-            }
-
-            decoded[name] = human;
-        }
-
-        return decoded.entries.map((e) => '${e.key}=${e.value}').join(', ');
-    }
-
     @override
     String get type => 'HTTPS';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
         'priority': priority,
         'target': targetName,
-        'params': _prettyPrintParams(params),
-    });
+        'params': params,
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

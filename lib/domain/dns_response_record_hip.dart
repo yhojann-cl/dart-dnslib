@@ -78,7 +78,7 @@ class HIPResponseRecord extends DNSResponseRecord {
     String get type => 'HIP';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
@@ -89,6 +89,9 @@ class HIPResponseRecord extends DNSResponseRecord {
         'pk': publicKey // to hex
             .map((b) => b.toRadixString(16).padLeft(2, '0'))
             .join(''),
-        'rendezvous': rendezvousServers.join(', '),
-    });
+        'rendezvous': rendezvousServers,
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

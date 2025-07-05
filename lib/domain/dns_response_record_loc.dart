@@ -77,14 +77,17 @@ class LOCResponseRecord extends DNSResponseRecord {
     String get type => 'LOC';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
         'latitude': latitude, // °
         'longitude': longitude, // °
         'altitude': altitude, // m
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 
     // 37 47 0.000 N 122 24 0.000 W 10.00m 1m 10000m 10m
     // { name:example.com, ttl:86400, latitude:37.78333333333333°, longitude:-122.4°, altitude:-89999.0m }

@@ -46,12 +46,15 @@ class URIResponseRecord extends DNSResponseRecord {
     String get type => 'URI';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
         'priority': priority,
         'weight': weight,
         'target': target,
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

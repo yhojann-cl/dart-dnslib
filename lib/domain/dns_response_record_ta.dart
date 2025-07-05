@@ -52,7 +52,7 @@ class TAResponseRecord extends DNSResponseRecord {
     String get type => 'TA';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
@@ -62,5 +62,8 @@ class TAResponseRecord extends DNSResponseRecord {
         'publicKey': publicKey
             .map((b) => b.toRadixString(16).padLeft(2, '0'))
             .join(''),
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

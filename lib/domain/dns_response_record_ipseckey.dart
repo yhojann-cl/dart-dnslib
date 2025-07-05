@@ -84,7 +84,7 @@ class IPSECKEYResponseRecord extends DNSResponseRecord {
     String get type => 'IPSECKEY';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
@@ -93,5 +93,8 @@ class IPSECKEYResponseRecord extends DNSResponseRecord {
         'algorithm': algorithm,
         'gateway': gateway,
         'publicKey': base64.encode(publicKey),
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

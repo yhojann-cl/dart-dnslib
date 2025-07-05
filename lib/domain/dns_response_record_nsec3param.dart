@@ -55,7 +55,7 @@ class NSEC3PARAMResponseRecord extends DNSResponseRecord {
     String get type => 'NSEC3PARAM';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
@@ -65,5 +65,8 @@ class NSEC3PARAMResponseRecord extends DNSResponseRecord {
         'salt': salt // To hex string
             .map((b) => b.toRadixString(16).padLeft(2, '0'))
             .join(),
-  });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

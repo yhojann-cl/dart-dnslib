@@ -11,7 +11,7 @@ class SVCBResponseRecord extends DNSResponseRecord {
 
     final int priority;
     final String target;
-    final Map<int, Uint8List> params;
+    final Map<String, String> params;
 
     SVCBResponseRecord({
         required super.name,
@@ -33,7 +33,7 @@ class SVCBResponseRecord extends DNSResponseRecord {
 
         final int priority = (bytes[offset] << 8) | bytes[offset + 1];
         final (int newOffset, String target) = DNSHelper.parseDomainName(bytes, offset + 2);
-        final Map<int, Uint8List> params = {};
+        final Map<int, Uint8List> _params = { };
 
         int pOffset = newOffset;
         while (pOffset < offset + length) {
@@ -48,8 +48,36 @@ class SVCBResponseRecord extends DNSResponseRecord {
                 break;
 
             final value = bytes.sublist(pOffset, pOffset + valueLen);
-            params[key] = value;
+            _params[key] = value;
             pOffset += valueLen;
+        }
+
+        final Map<String, String> decoded = { };
+        for (final entry in _params.entries) {
+            final key = entry.key;
+            final value = entry.value;
+
+            // Ejemplos comunes
+            switch (key) {
+                case 1:
+                    decoded['alpn'] = utf8.decode(value, allowMalformed: true);
+                    break;
+                case 3:
+                    decoded['port'] = value.fold(0, (a, b) => (a << 8) + b).toString();
+                    break;
+                case 4:
+                    decoded['ipv4hint'] = value.map((b) => b.toString()).join('.');
+                    break;
+                case 6:
+                    decoded['ipv6hint'] = value
+                        .buffer.asUint8List()
+                        .map((b) => b.toRadixString(16).padLeft(2, '0'))
+                        .join(':')
+                        .replaceAll(RegExp(r'(:0+)+(:|$)'), '::');
+                    break;
+                default:
+                    decoded[key.toString()] = value.map((b) => b.toRadixString(16).padLeft(2, '0')).join('');
+            }
         }
 
         return SVCBResponseRecord(
@@ -57,56 +85,22 @@ class SVCBResponseRecord extends DNSResponseRecord {
             ttl: ttl,
             priority: priority,
             target: target,
-            params: params);
-    }
-
-    /// Decodifica un valor de parámetro si es una cadena ASCII legible.
-    static String decodeAscii(Uint8List data) =>
-        utf8.decode(data, allowMalformed: true);
-
-    /// Convierte los parámetros en una representación legible
-    static Map<String, String> formatParams(Map<int, Uint8List> params) {
-        final Map<String, String> output = { };
-        for (final entry in params.entries) {
-            final key = entry.key;
-            final value = entry.value;
-
-            // Ejemplos comunes
-            switch (key) {
-                case 1:
-                    output['alpn'] = decodeAscii(value);
-                    break;
-                case 3:
-                    output['port'] = value.fold(0, (a, b) => (a << 8) + b).toString();
-                    break;
-                case 4:
-                    output['ipv4hint'] = value.map((b) => b.toString()).join('.');
-                    break;
-                case 6:
-                    output['ipv6hint'] = value
-                        .buffer.asUint8List()
-                        .map((b) => b.toRadixString(16).padLeft(2, '0'))
-                        .join(':')
-                        .replaceAll(RegExp(r'(:0+)+(:|$)'), '::');
-                    break;
-                default:
-                    output[key.toString()] = value.map((b) => b.toRadixString(16).padLeft(2, '0')).join('');
-            }
-        }
-
-        return output;
+            params: decoded);
     }
 
     @override
     String get type => 'SVCB';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
         'priority': priority,
         'target': target,
-        'params': formatParams(params),
-    });
+        'params': params,
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

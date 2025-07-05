@@ -52,10 +52,13 @@ class TXTResponseRecord extends DNSResponseRecord {
     String get type => 'TXT';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
         'texts': texts,
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

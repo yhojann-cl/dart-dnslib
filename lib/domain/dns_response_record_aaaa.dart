@@ -52,10 +52,20 @@ class AAAAResponseRecord extends DNSResponseRecord {
     String get type => 'AAAA';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
-        'ip': ip.address,
-    });
+        'ip': {
+            'host': ip.host,
+            'address': ip.address,
+            'isLinkLocal': ip.isLinkLocal,
+            'isLoopback': ip.isLoopback,
+            'isMulticast': ip.isMulticast,
+            'type': ip.type.name,
+        }
+    };
+
+    @override
+    String toString() => jsonEncode(toJson());
 }

@@ -21,7 +21,23 @@ class APLPrefix {
     });
 
     @override
-    String toString() => '${negation ? '!' : ''}${family}:${ip.address}/${prefix}';
+    Map<String, dynamic> toJson() => {
+        'family': family,
+        'prefix': prefix,
+        'negation': negation,
+        'ip': {
+            'host': ip.host,
+            'address': ip.address,
+            'isLinkLocal': ip.isLinkLocal,
+            'isLoopback': ip.isLoopback,
+            'isMulticast': ip.isMulticast,
+            'type': ip.type.name,
+        },
+        'alias': '${negation ? '!' : ''}${family}:${ip.address}/${prefix}'
+    };
+
+    @override
+    String toString() => jsonEncode(toJson());
 }
 
 
@@ -100,10 +116,13 @@ class APLResponseRecord extends DNSResponseRecord {
     String get type => 'APL';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
-        'prefixes': prefixes.toString(),
-    });
+        'prefixes': prefixes.map((p) => p.toJson()),
+    };
+
+    @override
+    String toString() => jsonEncode(toJson());
 }

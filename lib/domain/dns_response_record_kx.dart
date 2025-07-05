@@ -43,11 +43,14 @@ class KXResponseRecord extends DNSResponseRecord {
     String get type => 'KX';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
         'preference': preference,
         'exchanger': exchanger,
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

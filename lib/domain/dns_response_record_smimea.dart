@@ -50,7 +50,7 @@ class SMIMEAResponseRecord extends DNSResponseRecord {
     String get type => 'SMIMEA';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
@@ -58,5 +58,8 @@ class SMIMEAResponseRecord extends DNSResponseRecord {
         'selector': selector,
         'matchingType': matchingType,
         'certificate': base64Encode(certificate),
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

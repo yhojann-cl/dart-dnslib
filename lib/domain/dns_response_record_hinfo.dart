@@ -62,11 +62,14 @@ class HINFOResponseRecord extends DNSResponseRecord {
     String get type => 'HINFO';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
         'cpu': cpu,
         'os': os,
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

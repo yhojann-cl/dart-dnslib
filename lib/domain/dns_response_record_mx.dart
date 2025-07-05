@@ -48,11 +48,14 @@ class MXResponseRecord extends DNSResponseRecord {
     String get type => 'MX';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
         'preference': preference,
         'exchange': exchange,
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

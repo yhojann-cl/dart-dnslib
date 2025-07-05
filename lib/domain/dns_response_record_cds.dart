@@ -52,7 +52,7 @@ class CDSResponseRecord extends DNSResponseRecord {
     String get type => 'CDS';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
@@ -62,5 +62,8 @@ class CDSResponseRecord extends DNSResponseRecord {
         'digest': digest
             .map((b) => b.toRadixString(16).padLeft(2, '0'))
             .join(''),
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

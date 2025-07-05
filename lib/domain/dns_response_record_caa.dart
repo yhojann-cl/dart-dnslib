@@ -53,12 +53,15 @@ class CAAResponseRecord extends DNSResponseRecord {
     String get type => 'CAA';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
         'flags': flags,
         'tag': tag,
         'value': value,
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

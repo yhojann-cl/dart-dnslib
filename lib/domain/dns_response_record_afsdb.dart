@@ -48,11 +48,14 @@ class AFSDBResponseRecord extends DNSResponseRecord {
     String get type => 'AFSDB';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
         'subtype': subtype,
         'hostname': hostname,
-    });
+    };
+
+    @override
+    String toString() => jsonEncode(toJson());
 }

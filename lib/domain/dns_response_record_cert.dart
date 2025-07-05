@@ -52,7 +52,7 @@ class CERTResponseRecord extends DNSResponseRecord {
     String get type => 'CERT';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
@@ -60,5 +60,8 @@ class CERTResponseRecord extends DNSResponseRecord {
         'keyTag': keyTag,
         'algorithm': algorithm,
         'certificate': base64.encode(certificate),
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }

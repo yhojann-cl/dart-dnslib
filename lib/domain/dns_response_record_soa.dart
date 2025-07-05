@@ -71,7 +71,7 @@ class SOAResponseRecord extends DNSResponseRecord {
     String get type => 'SOA';
 
     @override
-    String toString() => jsonEncode({
+    Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,
         'ttl': ttl,
@@ -82,5 +82,8 @@ class SOAResponseRecord extends DNSResponseRecord {
         'retry': retry,
         'expire': expire,
         'minimum': minimum,
-    });
+    };
+    
+    @override
+    String toString() => jsonEncode(toJson());
 }
