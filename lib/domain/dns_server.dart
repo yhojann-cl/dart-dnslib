@@ -7,13 +7,13 @@ import './dns_protocol.dart' show DnsProtocol;
  */
 class DnsServer {
 
-    final String? name;
-    final String? description;
-    final String host;
-    final int port;
-    final String path;
-    final DnsProtocol protocol;
-    final Map<String, String> headers;
+    String? name;
+    String? description;
+    String host;
+    int port;
+    String path;
+    DnsProtocol protocol;
+    Map<String, String> headers;
 
     const DnsServer({
         required this.host,

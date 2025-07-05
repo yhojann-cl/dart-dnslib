@@ -1,3 +1,7 @@
+## 1.1.5
+
+- Add support for set properties to DnsServer object (final declarations).
+
 ## 1.1.4
 
 - Add support for use a hostname instead of ip address for udp connections.
