@@ -15,7 +15,7 @@ class DnsServer {
     DnsProtocol protocol;
     Map<String, String> headers;
 
-    const DnsServer({
+    DnsServer({
         required this.host,
         this.name,
         this.description,
