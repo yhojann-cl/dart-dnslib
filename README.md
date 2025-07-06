@@ -40,7 +40,7 @@ DNSClient // Returns a Future<List<DNSResponseRecord>>
     .query(
         domain: 'example.com',
         dnsRecordType: DNSRecordTypes.findByName('A'),
-        dnsServer: DnsServer(host: '8.8.8.8'),
+        dnsServer: DNSServer(host: '8.8.8.8'),
     )
     .then((records) {
         for (DNSResponseRecord record in records)
@@ -60,15 +60,15 @@ final List<DNSResponseRecord> records = await DNSClient.query( // ...
 You can see more examples in the [example](example/) directory.
 
 
-## DnsServer
+## DNSServer
 
 The definition object and properties are:
 
 ```dart
-const DnsServer({
+const DNSServer({
     required this.host,
     this.port = 53, // Default port
-    this.protocol = DnsProtocol.udp, // Default protocol
+    this.protocol = DNSProtocol.udp, // Default protocol
     this.path = '/dns-query', // Default path for DoH
     this.headers = const { // Default headers for DoH
         'Accept': 'application/dns-message',
@@ -78,7 +78,7 @@ const DnsServer({
 });
 ```
 
-Protocols supported by `DnsProtocol` are `udp`, `tcp` and `doh`.
+Protocols supported by `DNSProtocol` are `udp`, `tcp` and `doh`.
 
 
 ## DNSClient
@@ -91,14 +91,14 @@ class DNSClient {
     static Future<List<DNSResponseRecord>> query({
         required String domain,
         required DNSRecordType dnsRecordType,
-        required DnsServer dnsServer,
+        required DNSServer dnsServer,
         int timeout = 5000, // 5 seconds by default (in milliseconds)
     }) async { ...
 ```
 
 ## Notes & Considerations
 
-- **DoH (DNS over HTTPS)** uses port `443` and HTTPS protocol. You must set `protocol: DnsProtocol.doh` and `port: 443` explicitly when using DoH.
+- **DoH (DNS over HTTPS)** uses port `443` and HTTPS protocol. You must set `protocol: DNSProtocol.doh` and `port: 443` explicitly when using DoH.
 - **AXFR** (zone transfer) is supported **only over TCP**. UDP and DoH do not support AXFR.
 - All DNS queries use **OPT** records for extended responses and support for large payloads over TCP and UDP.
 

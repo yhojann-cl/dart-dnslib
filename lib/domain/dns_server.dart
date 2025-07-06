@@ -1,26 +1,26 @@
 import 'dart:convert' show jsonEncode;
-import './dns_protocol.dart' show DnsProtocol;
+import './dns_protocol.dart' show DNSProtocol;
 
 
 /**
  *
  */
-class DnsServer {
+class DNSServer {
 
     String? name;
     String? description;
     String host;
     int port;
     String path;
-    DnsProtocol protocol;
+    DNSProtocol protocol;
     Map<String, String> headers;
 
-    DnsServer({
+    DNSServer({
         required this.host,
         this.name,
         this.description,
         this.port = 53, // Default port
-        this.protocol = DnsProtocol.udp, // Default protocol
+        this.protocol = DNSProtocol.udp, // Default protocol
         this.path = '/dns-query', // Default path for DoH
         this.headers = const { // Default headers for DoH
             'Accept': 'application/dns-message',

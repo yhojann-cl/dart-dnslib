@@ -1,7 +1,11 @@
+## 1.2.8
+
+- Class name homologation using case sensitive.
+
 ## 1.2.7
 
 - Improves Json serialization for all response objects.
-- Translate binary pparameters values to string format for https and svcb types.
+- Translate binary parameters values to string format for https and svcb types.
 
 ## 1.1.6
 

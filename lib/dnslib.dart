@@ -40,12 +40,12 @@ export 'domain/dns_response_record_svcb.dart' show SVCBResponseRecord;
 export 'domain/dns_response_record_ta.dart' show TAResponseRecord;
 export 'domain/dns_response_record_txt.dart' show TXTResponseRecord;
 export 'domain/dns_response_record_uri.dart' show URIResponseRecord;
-export 'domain/dns_server.dart' show DnsServer;
-export 'domain/dns_protocol.dart' show DnsProtocol;
+export 'domain/dns_server.dart' show DNSServer;
+export 'domain/dns_protocol.dart' show DNSProtocol;
 
 // Repository
 export 'repository/dns_record_types.dart' show DNSRecordTypes;
-export 'repository/dns_servers.dart' show DnsServers;
+export 'repository/dns_servers.dart' show DNSServers;
 
 // Main client
 export 'service/dns_client.dart' show DNSClient;

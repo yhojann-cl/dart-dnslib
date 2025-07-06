@@ -39,8 +39,8 @@ import '../domain/dns_response_record_svcb.dart' show SVCBResponseRecord;
 import '../domain/dns_response_record_ta.dart' show TAResponseRecord;
 import '../domain/dns_response_record_txt.dart' show TXTResponseRecord;
 import '../domain/dns_response_record_uri.dart' show URIResponseRecord;
-import '../domain/dns_server.dart' show DnsServer;
-import '../domain/dns_protocol.dart' show DnsProtocol;
+import '../domain/dns_server.dart' show DNSServer;
+import '../domain/dns_protocol.dart' show DNSProtocol;
 import '../repository/dns_record_types.dart' show DNSRecordTypes;
 
 
@@ -52,14 +52,14 @@ class DNSClient {
     static Future<List<DNSResponseRecord>> query({
         required String domain,
         required DNSRecordType dnsRecordType,
-        required DnsServer dnsServer,
+        required DNSServer dnsServer,
         int timeout = 5000, // 5 seconds by default (in milliseconds)
     }) async {
         
         final List<DNSResponseRecord> records = [ ];
         final Completer<List<DNSResponseRecord>> completer = Completer();
 
-        if(dnsServer.protocol == DnsProtocol.udp) { // UDP connection
+        if(dnsServer.protocol == DNSProtocol.udp) { // UDP connection
 
             // Construye el paquete de consulta DNS
             final Uint8List query = _buildQuery(domain, dnsRecordType);
@@ -107,7 +107,7 @@ class DNSClient {
                 }
             });
 
-        } else if(dnsServer.protocol == DnsProtocol.tcp) { // TCP connection
+        } else if(dnsServer.protocol == DNSProtocol.tcp) { // TCP connection
 
             // Construye el paquete de consulta DNS
             final Uint8List query = _buildQuery(domain, dnsRecordType);
@@ -216,7 +216,7 @@ class DNSClient {
                 cancelOnError: true,
             );
 
-        } else if(dnsServer.protocol == DnsProtocol.doh) { // DoH (HTTPS) connection
+        } else if(dnsServer.protocol == DNSProtocol.doh) { // DoH (HTTPS) connection
 
             // Create the http client
             final client = http.Client();

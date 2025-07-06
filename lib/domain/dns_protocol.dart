@@ -1,4 +1,4 @@
-enum DnsProtocol {
+enum DNSProtocol {
     udp,
     tcp,
     doh,
