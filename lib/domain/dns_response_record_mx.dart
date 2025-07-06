@@ -4,9 +4,6 @@ import './dns_response_record.dart' show DNSResponseRecord;
 import '../helper/dns.dart' show DNSHelper;
 
 
-/**
- *
- */
 class MXResponseRecord extends DNSResponseRecord {
 
     final String name;
@@ -28,8 +25,9 @@ class MXResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
 
-        if (length < 3 || offset + length > bytes.length)
+        if (length < 3 || offset + length > bytes.length) {
             throw FormatException('Invalid MX record: insufficient length.');
+        }
         
         // Leer los dos bytes de preferencia (16 bits)
         final int preference = (bytes[offset] << 8) | bytes[offset + 1];

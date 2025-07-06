@@ -4,9 +4,6 @@ import './dns_response_record.dart' show DNSResponseRecord;
 import '../helper/dns.dart' show DNSHelper;
 
 
-/**
- *
- */
 class NSResponseRecord extends DNSResponseRecord {
   
     final String nameserver;
@@ -24,8 +21,9 @@ class NSResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
 
-        if ((offset + length) > bytes.length)
+        if ((offset + length) > bytes.length) {
             throw FormatException('Invalid NS record: exceeds byte length.');
+        }
 
         final (_, String nameserver) = DNSHelper.parseDomainName(bytes, offset);
 

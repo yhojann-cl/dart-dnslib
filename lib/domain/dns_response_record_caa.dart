@@ -3,9 +3,6 @@ import 'dart:typed_data' show Uint8List;
 import './dns_response_record.dart' show DNSResponseRecord;
 
 
-/**
- *
- */
 class CAAResponseRecord extends DNSResponseRecord {
 
     final String name;
@@ -29,14 +26,16 @@ class CAAResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
 
-        if (length < 2)
+        if (length < 2) {
             throw FormatException('Invalid CAA record: too short');
+        }
 
         final int flags = bytes[offset];
         final int tagLength = bytes[offset + 1];
 
-        if (length < 2 + tagLength)
+        if (length < 2 + tagLength) {
             throw FormatException('Invalid CAA record: tagLength overflow');
+        }
 
         final String tag = String.fromCharCodes(bytes.sublist(offset + 2, offset + 2 + tagLength));
         final String value = String.fromCharCodes(bytes.sublist(offset + 2 + tagLength, offset + length));

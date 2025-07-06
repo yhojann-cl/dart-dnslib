@@ -7,10 +7,10 @@ void main() {
     print('Executing UDP example ...');
 
     // UDP DNS service
-    final DnsServer dnsServer = DnsServer(
+    final DNSServer dnsServer = DNSServer(
         host: '8.8.8.8',
         port: 53, // Optional. Value is by default.
-        protocol: DnsProtocol.udp, // Optional, value is by default.
+        protocol: DNSProtocol.udp, // Optional, value is by default.
     );
 
     // Create query
@@ -20,8 +20,9 @@ void main() {
         dnsServer: dnsServer
     )
     .then((records) {
-        for (DNSResponseRecord record in records)
+        for (DNSResponseRecord record in records) {
             print(record); // By default print in josn format
+        }
     })
     .catchError((error) { // Catch any error here
         throw error;

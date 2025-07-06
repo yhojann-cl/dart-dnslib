@@ -1,6 +1,3 @@
-/**
- *
- */
 abstract class DNSResponseRecord {
     
     final String name;
@@ -11,5 +8,6 @@ abstract class DNSResponseRecord {
         required this.ttl,
     });
 
+    Map<String, dynamic> toJson();
     String get type;
 }

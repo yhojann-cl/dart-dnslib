@@ -2,9 +2,6 @@ import 'dart:convert' show jsonEncode;
 import './dns_protocol.dart' show DNSProtocol;
 
 
-/**
- *
- */
 class DNSServer {
 
     String? name;
@@ -29,7 +26,6 @@ class DNSServer {
         },
     });
 
-    @override
     Map<String, dynamic> toJson() => {
         'name': name,
         'description': description,

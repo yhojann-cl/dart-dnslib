@@ -1,9 +1,6 @@
 import 'dart:typed_data';
 
 
-/**
- *
- */
 class DNSHelper {
 
     static (int, String) parseDomainName(Uint8List data, int offset) {
@@ -17,8 +14,9 @@ class DNSHelper {
             // Si es puntero
             if ((length & 0xC0) == 0xC0) {
                 final int pointer = ((length & 0x3F) << 8) | data[offset + 1];
-                if (!jumped)
+                if (!jumped) {
                     originalOffset = offset + 2; // Solo si no habíamos saltado antes
+                }
       
                 // Parse desde el puntero
                 final (_, String name) = DNSHelper.parseDomainName(data, pointer);
@@ -28,8 +26,9 @@ class DNSHelper {
 
             // Si es fin del nombre
             if (length == 0) {
-                if (!jumped)
+                if (!jumped) {
                     originalOffset = offset + 1;
+                }
                 break;
             }
 

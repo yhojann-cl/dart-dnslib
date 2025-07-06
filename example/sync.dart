@@ -12,10 +12,10 @@ Future<void> main() async {
             .query(
                 domain: 'example.com',
                 dnsRecordType: DNSRecordTypes.findByName('A'),
-                dnsServer: DnsServer(
+                dnsServer: DNSServer(
                     host: '8.8.8.8',
                     port: 53, // Optional. Value is by default.
-                    protocol: DnsProtocol.tcp,
+                    protocol: DNSProtocol.tcp,
                 )
             )
             .catchError((error) { // Catch any error here
@@ -23,8 +23,9 @@ Future<void> main() async {
             });
 
         // Process each record
-        for (DNSResponseRecord record in records)
+        for (DNSResponseRecord record in records) {
             print(record); // By default print in josn format
+        }
     
     } catch(e) {
         // Catch errors here ...

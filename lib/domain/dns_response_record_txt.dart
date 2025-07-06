@@ -3,9 +3,6 @@ import 'dart:typed_data' show Uint8List;
 import './dns_response_record.dart' show DNSResponseRecord;
 
 
-/**
- *
- */
 class TXTResponseRecord extends DNSResponseRecord {
   
     final List<String> texts;
@@ -23,8 +20,9 @@ class TXTResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
 
-        if (offset + length > bytes.length)
+        if (offset + length > bytes.length) {
             throw FormatException('TXT record out of bounds');
+        }
 
         final List<String> texts = [];
         int i = offset;
@@ -34,8 +32,9 @@ class TXTResponseRecord extends DNSResponseRecord {
             final int len = bytes[i];
             i += 1;
 
-            if (i + len > end)
+            if (i + len > end) {
                 throw FormatException('Invalid TXT string length');
+            }
 
             final String txt = utf8.decode(bytes.sublist(i, i + len));
             texts.add(txt);

@@ -44,11 +44,10 @@ import '../domain/dns_protocol.dart' show DNSProtocol;
 import '../repository/dns_record_types.dart' show DNSRecordTypes;
 
 
-/**
- *
- */
+/// Main DNS Client library.
 class DNSClient {
 
+    /// Made a DNS query.
     static Future<List<DNSResponseRecord>> query({
         required String domain,
         required DNSRecordType dnsRecordType,
@@ -66,16 +65,21 @@ class DNSClient {
             
             // Transform hostname to ip address
             InternetAddress? addr = InternetAddress.tryParse(dnsServer.host);
+
             if(addr == null) {
+                
                 addr = (await InternetAddress.lookup(dnsServer.host))
-                    .firstWhere((i) => i.type == InternetAddressType.IPv4);
-                if(addr == null)
+                    .where((i) => i.type == InternetAddressType.IPv4)
+                    .firstOrNull;
+                
+                if(addr == null) {
                     throw ArgumentError('Host not found: ${dnsServer.host}');
+                }
             }
 
             // Envia el paquete al servidor DNS vía UDP
             final RawDatagramSocket socket = await RawDatagramSocket.bind(InternetAddress.anyIPv4, 0);
-            socket.send(query, addr!, dnsServer.port);
+            socket.send(query, addr, dnsServer.port);
 
             // Timeout
             final timer = Timer(Duration(milliseconds: timeout), () {
@@ -101,8 +105,11 @@ class DNSClient {
                 // } else if (event == RawSocketEvent.write) {
 
                 } else if(event == RawSocketEvent.closed) {
-                    if(!completer.isCompleted)
+
+                    if(!completer.isCompleted) {
                         completer.complete(records);
+                    }
+
                     timer.cancel();
                 }
             });
@@ -128,8 +135,9 @@ class DNSClient {
             final Timer timer = Timer(Duration(milliseconds: timeout), () {
 
                 // Finalize thread with error
-                if (!completer.isCompleted)
+                if (!completer.isCompleted) {
                     completer.completeError(TimeoutException('DNS TCP query timeout'));
+                }
 
                 // Destroy socket connection
                 socket.destroy();
@@ -146,7 +154,7 @@ class DNSClient {
                 (List<int> bytes) {
                     
                     // First stream part
-                    if(responseBuffer.length == 0) {
+                    if(responseBuffer.isEmpty) {
 
                         if (bytes.length < 2) {
 
@@ -154,8 +162,9 @@ class DNSClient {
                             timer.cancel();
 
                             // Finalize thread with error
-                            if (!completer.isCompleted)
+                            if (!completer.isCompleted) {
                                 completer.completeError(FormatException('TCP response too short'));
+                            }
 
                             // Destroy socket connection
                             socket.destroy();
@@ -172,8 +181,9 @@ class DNSClient {
                             timer.cancel();
 
                             // Finalize thread with error
-                            if (!completer.isCompleted)
+                            if (!completer.isCompleted) {
                                 completer.completeError(FormatException('Incomplete answer'));
+                            }
 
                             // Destroy socket connection
                             socket.destroy();
@@ -196,8 +206,9 @@ class DNSClient {
                         records.addAll(_parseResponse(Uint8List.fromList(responseBuffer.sublist(2, responseLength + 2))));
 
                         // Finalize thread with the results
-                        if (!completer.isCompleted)
+                        if (!completer.isCompleted) {
                             completer.complete(records);
+                        }
                         
                         // Destroy socket connection
                         socket.destroy();
@@ -210,8 +221,9 @@ class DNSClient {
                     timer.cancel();
 
                     // Finalize thread with errors
-                    if (!completer.isCompleted)
+                    if (!completer.isCompleted) {
                         completer.completeError(error);
+                    }
                 },
                 cancelOnError: true,
             );
@@ -237,8 +249,9 @@ class DNSClient {
                 records.addAll(_parseResponse(response.bodyBytes));
 
                 // Finalize thread with the results
-                if (!completer.isCompleted)
+                if (!completer.isCompleted) {
                     completer.complete(records);
+                }
 
                 // End http connection
                 client.close();
@@ -246,8 +259,9 @@ class DNSClient {
 
             .catchError((error) {
                 // Finalize thread with errors
-                if (!completer.isCompleted)
+                if (!completer.isCompleted) {
                     completer.completeError(error);
+                }
             });
         }
 
@@ -301,20 +315,23 @@ class DNSClient {
         final List<DNSResponseRecord> records = [ ];
 
         // Header DNS response
-        final int headerId = (bytes[0] << 8) | bytes[0 + 1]; // ID (uint16)
-        final int headerFlags = (bytes[2] << 8) | bytes[2 + 1]; // Flags (uint16)
-        final int headerFlagQR = (headerFlags >> 15) & 0x1; // 1 bit (QR: Question or answer)
-        final int headerFlagOpcode = (headerFlags >> 11) & 0xF; // 4 bits (Opcode)
-        final int headerFlagAuthoritiveAnswer = (headerFlags >> 10) & 0x1; // 1 bit (Authoritative Answer)
-        final int headerFlagTruncated = (headerFlags >> 9) & 0x1; // 1 bit (Truncated)
-        final int headerFlagRecursionDesired = (headerFlags >> 8) & 0x1; // 1 bit (Recursion Desired)
-        final int headerFlagRecursionAvailable = (headerFlags >> 7) & 0x1; // 1 bit (Recursion Available)
-        final int headerFlagZ = (headerFlags >> 4) & 0x7; // 3 bits (Reserved)
-        final int headerFlagResponseCode = headerFlags & 0xF; // 4 bits (Response code)
+        // final int headerId = (bytes[0] << 8) | bytes[0 + 1]; // ID (uint16)
+        // final int headerFlags = (bytes[2] << 8) | bytes[2 + 1]; // Flags (uint16)
+        // final int headerFlagQR = (headerFlags >> 15) & 0x1; // 1 bit (QR: Question or answer)
+        // final int headerFlagOpcode = (headerFlags >> 11) & 0xF; // 4 bits (Opcode)
+        // final int headerFlagAuthoritiveAnswer = (headerFlags >> 10) & 0x1; // 1 bit (Authoritative Answer)
+
+        // TODO: Unimplemented.
+        // final int headerFlagTruncated = (headerFlags >> 9) & 0x1; // 1 bit (Truncated)
+
+        // final int headerFlagRecursionDesired = (headerFlags >> 8) & 0x1; // 1 bit (Recursion Desired)
+        // final int headerFlagRecursionAvailable = (headerFlags >> 7) & 0x1; // 1 bit (Recursion Available)
+        // final int headerFlagZ = (headerFlags >> 4) & 0x7; // 3 bits (Reserved)
+        // final int headerFlagResponseCode = headerFlags & 0xF; // 4 bits (Response code)
         final int headerQDCount = (bytes[4] << 8) | bytes[4 + 1]; // Questions count (uint16)
         final int headerANCount = (bytes[6] << 8) | bytes[6 + 1]; // Response count (uint16)
-        final int headerNSCount = (bytes[8] << 8) | bytes[8 + 1]; // Authority records count (uint16)
-        final int headerARCount = (bytes[10] << 8) | bytes[10 + 1]; // Additional records count (uint16)
+        // final int headerNSCount = (bytes[8] << 8) | bytes[8 + 1]; // Authority records count (uint16)
+        // final int headerARCount = (bytes[10] << 8) | bytes[10 + 1]; // Additional records count (uint16)
         
         // Current byte offset
         int offset = 12;
@@ -329,11 +346,11 @@ class DNSClient {
             (offset, bodyQueryName) = DNSHelper.parseDomainName(bytes, offset);
 
             // Question query type (uint16)
-            final int bodyQueryType = (bytes[offset] << 8) | bytes[offset + 1];
+            // final int bodyQueryType = (bytes[offset] << 8) | bytes[offset + 1];
             offset += 2;
 
             // Question query class type (uint16)
-            final int bodyQueryClass = (bytes[offset] << 8) | bytes[offset + 1];
+            // final int bodyQueryClass = (bytes[offset] << 8) | bytes[offset + 1];
             offset += 2;
         }
 
@@ -351,7 +368,7 @@ class DNSClient {
                 offset += 2;
 
                 // Read CLASS (uint16)
-                final int answerClassType = (bytes[offset] << 8) | bytes[offset + 1];
+                // final int answerClassType = (bytes[offset] << 8) | bytes[offset + 1];
                 offset += 2;
 
                 // Read TTL (uint32)
@@ -755,7 +772,7 @@ class DNSClient {
                 } else if (answerRecordType == DNSRecordTypes.findByName('OPT').id) { // Special
 
                 } else {
-                    throw FormatException('Unknown response record type for "${answerRecordType}".');
+                    throw FormatException('Unknown response record type for "$answerRecordType".');
                 }
 
                 // Move the pointer

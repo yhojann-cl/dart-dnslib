@@ -4,9 +4,6 @@ import 'dart:io' show InternetAddress, InternetAddressType;
 import './dns_response_record.dart' show DNSResponseRecord;
 
 
-/**
- *
- */
 class APLPrefix {
     final int family;
     final int prefix;
@@ -20,7 +17,6 @@ class APLPrefix {
         required this.ip,
     });
 
-    @override
     Map<String, dynamic> toJson() => {
         'family': family,
         'prefix': prefix,
@@ -33,7 +29,7 @@ class APLPrefix {
             'isMulticast': ip.isMulticast,
             'type': ip.type.name,
         },
-        'alias': '${negation ? '!' : ''}${family}:${ip.address}/${prefix}'
+        'alias': '${negation ? '!' : ''}$family:${ip.address}/$prefix'
     };
 
     @override
@@ -41,9 +37,6 @@ class APLPrefix {
 }
 
 
-/**
- *
- */
 class APLResponseRecord extends DNSResponseRecord {
 
     final String name;
@@ -67,8 +60,9 @@ class APLResponseRecord extends DNSResponseRecord {
         int cursor = offset;
 
         while (cursor < offset + length) {
-            if (cursor + 4 > bytes.length)
+            if (cursor + 4 > bytes.length) {
                 throw FormatException('Truncated APL entry at offset $cursor');
+            }
 
             final int family = (bytes[cursor] << 8) | bytes[cursor + 1];
             final int prefix = bytes[cursor + 2];
@@ -77,8 +71,9 @@ class APLResponseRecord extends DNSResponseRecord {
             final int afdLength = lengthAndNegation & 0x7F;
             cursor += 4;
 
-            if (cursor + afdLength > bytes.length)
+            if (cursor + afdLength > bytes.length) {
                 throw FormatException('Invalid AFD length at offset $cursor');
+            }
 
             final Uint8List afdBytes = bytes.sublist(cursor, cursor + afdLength);
             cursor += afdLength;
@@ -107,8 +102,9 @@ class APLResponseRecord extends DNSResponseRecord {
     static Uint8List _padAddress(Uint8List input, int family) {
         final int targetLength = (family == 1) ? 4 : 16;
         final result = Uint8List(targetLength);
-        for (int i = 0; i < input.length; i++)
+        for (int i = 0; i < input.length; i++) {
             result[i] = input[i];
+        }
         return result;
     }
 

@@ -4,9 +4,6 @@ import './dns_response_record.dart' show DNSResponseRecord;
 import '../helper/dns.dart' show DNSHelper;
 
 
-/**
- *
- */
 class SVCBResponseRecord extends DNSResponseRecord {
 
     final int priority;
@@ -28,32 +25,35 @@ class SVCBResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
 
-        if (length < 3 || (offset + length) > bytes.length)
+        if (length < 3 || (offset + length) > bytes.length) {
             throw FormatException('Invalid SVCB record: too short or out of range');
+        }
 
         final int priority = (bytes[offset] << 8) | bytes[offset + 1];
         final (int newOffset, String target) = DNSHelper.parseDomainName(bytes, offset + 2);
-        final Map<int, Uint8List> _params = { };
+        final Map<int, Uint8List> encoded = { };
 
         int pOffset = newOffset;
         while (pOffset < offset + length) {
-            if (pOffset + 4 > bytes.length)
+            if (pOffset + 4 > bytes.length) {
                 break;
+            }
 
             final int key = (bytes[pOffset] << 8) | bytes[pOffset + 1];
             final int valueLen = (bytes[pOffset + 2] << 8) | bytes[pOffset + 3];
             pOffset += 4;
 
-            if (pOffset + valueLen > bytes.length)
+            if (pOffset + valueLen > bytes.length) {
                 break;
+            }
 
             final value = bytes.sublist(pOffset, pOffset + valueLen);
-            _params[key] = value;
+            encoded[key] = value;
             pOffset += valueLen;
         }
 
         final Map<String, String> decoded = { };
-        for (final entry in _params.entries) {
+        for (final entry in encoded.entries) {
             final key = entry.key;
             final value = entry.value;
 

@@ -3,9 +3,6 @@ import 'dart:typed_data' show Uint8List;
 import './dns_response_record.dart' show DNSResponseRecord;
 
 
-/**
- *
- */
 class SSHFPResponseRecord extends DNSResponseRecord {
   
     final int algorithm;
@@ -27,8 +24,9 @@ class SSHFPResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
 
-        if (length < 2 || (offset + length) > bytes.length)
+        if (length < 2 || (offset + length) > bytes.length) {
             throw FormatException('Invalid SSHFP record: too short or out of range');
+        }
 
         final int algorithm = bytes[offset];
         final int fingerprintType = bytes[offset + 1];

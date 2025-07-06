@@ -5,9 +5,6 @@ import './dns_response_record.dart' show DNSResponseRecord;
 import '../helper/dns.dart' show DNSHelper;
 
 
-/**
- *
- */
 class HTTPSResponseRecord extends DNSResponseRecord {
   
     final int priority;
@@ -29,8 +26,9 @@ class HTTPSResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
     
-        if (length < 3)
+        if (length < 3) {
             throw FormatException('Invalid HTTPS record: expected at least 3 bytes, got $length');
+        }
 
         final int priority = (bytes[offset] << 8) | bytes[offset + 1];
         int i = offset + 2;
@@ -39,17 +37,21 @@ class HTTPSResponseRecord extends DNSResponseRecord {
         final (offs, hostname) = DNSHelper.parseDomainName(bytes, i);
         i = offs;
 
-        final Map<int, Uint8List> _params = { };
+        final Map<int, Uint8List> encoded = { };
         while (i < offset + length) {
-            if (i + 4 > bytes.length)
+            if (i + 4 > bytes.length) {
                 break;
+            }
+
             final int key = (bytes[i] << 8) | bytes[i + 1];
             final int valueLength = (bytes[i + 2] << 8) | bytes[i + 3];
             i += 4;
 
-            if (i + valueLength > bytes.length)
+            if (i + valueLength > bytes.length) {
                 break;
-            _params[key] = bytes.sublist(i, i + valueLength);
+            }
+
+            encoded[key] = bytes.sublist(i, i + valueLength);
             i += valueLength;
         }
 
@@ -61,7 +63,7 @@ class HTTPSResponseRecord extends DNSResponseRecord {
         };
 
         final Map<String, String> decoded = { };
-        for (final entry in _params.entries) {
+        for (final entry in encoded.entries) {
             final key = entry.key;
             final val = entry.value;
             final name = knownKeys[key] ?? 'key$key';
@@ -101,8 +103,10 @@ class HTTPSResponseRecord extends DNSResponseRecord {
         while (i < value.length) {
             final len = value[i];
             i++;
-            if (i + len > value.length)
+            if (i + len > value.length) {
                 break;
+            }
+
             final name = utf8.decode(value.sublist(i, i + len));
             protocols.add(name);
             i += len;
@@ -129,8 +133,9 @@ class HTTPSResponseRecord extends DNSResponseRecord {
     }
 
     static String _decodePort(Uint8List value) {
-        if (value.length != 2)
+        if (value.length != 2) {
             return 'invalid';
+        }
         return ((value[0] << 8) | value[1]).toString();
     }
 

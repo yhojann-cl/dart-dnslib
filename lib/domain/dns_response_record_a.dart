@@ -4,9 +4,6 @@ import 'dart:typed_data' show Uint8List;
 import './dns_response_record.dart' show DNSResponseRecord;
 
 
-/**
- *
- */
 class AResponseRecord extends DNSResponseRecord {
     
     final String name;
@@ -27,12 +24,12 @@ class AResponseRecord extends DNSResponseRecord {
         required int length }) {
 
         // Length validation
-        if((length != 4) ||
-            ((offset + length) > bytes.length))
+        if((length != 4) || ((offset + length) > bytes.length)) {
             throw FormatException('Invalid bytes length for A record.');
+        }
 
         // Create the IPv4
-        final String _ip = bytes
+        final String ipString = bytes
             .sublist(offset, offset + length)
             .join('.');
 
@@ -40,7 +37,7 @@ class AResponseRecord extends DNSResponseRecord {
         return AResponseRecord(
             name: name,
             ttl: ttl,
-            ip: InternetAddress.tryParse(_ip)!
+            ip: InternetAddress.tryParse(ipString)!
         );
     }
     

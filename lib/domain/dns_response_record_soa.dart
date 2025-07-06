@@ -4,9 +4,6 @@ import './dns_response_record.dart' show DNSResponseRecord;
 import '../helper/dns.dart' show DNSHelper;
 
 
-/**
- *
- */
 class SOAResponseRecord extends DNSResponseRecord {
   
     final String mname;
@@ -37,8 +34,9 @@ class SOAResponseRecord extends DNSResponseRecord {
         required int length }) {
     
         final int end = offset + length;
-        if (end > bytes.length)
+        if (end > bytes.length) {
             throw FormatException('Invalid SOA record: insufficient bytes');
+        }
 
         // mname
         final (offset1, mname) = DNSHelper.parseDomainName(bytes, offset);

@@ -3,9 +3,6 @@ import 'dart:typed_data' show Uint8List;
 import './dns_response_record.dart' show DNSResponseRecord;
 
 
-/**
- *
- */
 class URIResponseRecord extends DNSResponseRecord {
 
     final int priority;
@@ -27,8 +24,9 @@ class URIResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
 
-        if (length < 4 || offset + length > bytes.length)
+        if (length < 4 || offset + length > bytes.length)  {
             throw FormatException('Invalid URI record length');
+        }
 
         final int priority = (bytes[offset] << 8) | bytes[offset + 1];
         final int weight = (bytes[offset + 2] << 8) | bytes[offset + 3];

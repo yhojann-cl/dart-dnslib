@@ -3,9 +3,6 @@ import 'dart:convert' show jsonEncode;
 import './dns_response_record.dart' show DNSResponseRecord;
 
 
-/**
- *
- */
 class DLVResponseRecord extends DNSResponseRecord {
   
     final String name;
@@ -33,8 +30,9 @@ class DLVResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
     
-        if (length < 4 || (offset + length > bytes.length))
+        if (length < 4 || (offset + length > bytes.length)) {
             throw FormatException('Invalid DLV record: insufficient data.');
+        }
 
         final int keyTag = (bytes[offset] << 8) | bytes[offset + 1];
         final int algorithm = bytes[offset + 2];

@@ -8,10 +8,10 @@ void main() {
     print('Executing AXFR example ...');
 
     // TCP DNS service with AXFR enabled
-    final DnsServer dnsServer = DnsServer(
+    final DNSServer dnsServer = DNSServer(
         host: 'nsztm1.digi.ninja',
         port: 53, // Optional. Value is by default.
-        protocol: DnsProtocol.tcp, // AXFR is only supported by TCP connections.
+        protocol: DNSProtocol.tcp, // AXFR is only supported by TCP connections.
     );
 
     // Create query
@@ -21,8 +21,9 @@ void main() {
         dnsServer: dnsServer
     )
     .then((records) {
-        for (DNSResponseRecord record in records)
+        for (DNSResponseRecord record in records) {
             print(record); // By default print in josn format
+        }
     })
     .catchError((error) { // Catch any error here
         throw error;

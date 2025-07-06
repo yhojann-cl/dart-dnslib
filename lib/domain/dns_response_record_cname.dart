@@ -4,9 +4,6 @@ import './dns_response_record.dart' show DNSResponseRecord;
 import '../helper/dns.dart' show DNSHelper;
 
 
-/**
- *
- */
 class CNAMEResponseRecord extends DNSResponseRecord {
   
     final String name;
@@ -26,8 +23,9 @@ class CNAMEResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
     
-        if ((offset + length) > bytes.length)
+        if ((offset + length) > bytes.length) {
             throw FormatException('Invalid CNAME record: out of bounds');
+        }
 
         final (_, cname) = DNSHelper.parseDomainName(bytes, offset);
 

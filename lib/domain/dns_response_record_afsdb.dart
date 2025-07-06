@@ -4,9 +4,6 @@ import './dns_response_record.dart' show DNSResponseRecord;
 import '../helper/dns.dart' show DNSHelper;
 
 
-/**
- *
- */
 class AFSDBResponseRecord extends DNSResponseRecord {
 
     final String name;
@@ -29,9 +26,9 @@ class AFSDBResponseRecord extends DNSResponseRecord {
         required int length }) {
 
         // Length validation
-        if((length < 3) ||
-            ((offset + length) > bytes.length))
+        if((length < 3) || ((offset + length) > bytes.length)) {
             throw FormatException('Invalid AFSDB record: expected at least 3 bytes, got ${bytes.length}.');
+        }
 
         late String hostname;        
         final int subtype = (bytes[offset + 0] << 8) | bytes[offset + 1]; // Uint8

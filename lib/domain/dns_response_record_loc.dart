@@ -3,9 +3,6 @@ import 'dart:convert' show jsonEncode;
 import './dns_response_record.dart' show DNSResponseRecord;
 
 
-/**
- *
- */
 class LOCResponseRecord extends DNSResponseRecord {
   
     final int version;
@@ -35,8 +32,9 @@ class LOCResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
         
-        if (length < 16 || (offset + 16) > bytes.length)
+        if (length < 16 || (offset + 16) > bytes.length) {
             throw FormatException('Invalid LOC record: length too short');
+        }
 
         final int version = bytes[offset];
         final int size = bytes[offset + 1];

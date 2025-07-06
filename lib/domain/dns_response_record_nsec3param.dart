@@ -3,9 +3,6 @@ import 'dart:typed_data' show Uint8List;
 import './dns_response_record.dart' show DNSResponseRecord;
 
 
-/**
- *
- */
 class NSEC3PARAMResponseRecord extends DNSResponseRecord {
   
     final int hashAlgorithm;
@@ -29,16 +26,18 @@ class NSEC3PARAMResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
 
-        if ((offset + length) > bytes.length || length < 5)
+        if ((offset + length) > bytes.length || length < 5) {
             throw FormatException('Invalid NSEC3PARAM record: insufficient length.');
+        }
 
         final int hashAlgorithm = bytes[offset];
         final int flags = bytes[offset + 1];
         final int iterations = (bytes[offset + 2] << 8) | bytes[offset + 3];
         final int saltLength = bytes[offset + 4];
 
-        if (offset + 5 + saltLength > bytes.length)
+        if (offset + 5 + saltLength > bytes.length) {
             throw FormatException('Invalid NSEC3PARAM record: salt data out of range.');
+        }
 
         final Uint8List salt = bytes.sublist(offset + 5, offset + 5 + saltLength);
 

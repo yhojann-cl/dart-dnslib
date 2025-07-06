@@ -7,10 +7,10 @@ void main() {
     print('Executing DoH example ...');
 
     // DoH DNS service
-    final DnsServer dnsServer = DnsServer(
+    final DNSServer dnsServer = DNSServer(
         host: 'dns.google',
         port: 443,
-        protocol: DnsProtocol.doh,
+        protocol: DNSProtocol.doh,
         path: '/dns-query', // Optional. Value is by default
         /* headers: const { // Optional. Value is by default
             'Accept': 'application/dns-message',
@@ -26,8 +26,9 @@ void main() {
         dnsServer: dnsServer
     )
     .then((records) {
-        for (DNSResponseRecord record in records)
+        for (DNSResponseRecord record in records) {
             print(record); // By default print in josn format
+        }
     })
     .catchError((error) { // Catch any error here
         throw error;

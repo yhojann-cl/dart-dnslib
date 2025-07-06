@@ -1,6 +1,7 @@
 ## 1.2.8
 
 - Class name homologation using case sensitive.
+- Improves code score.
 
 ## 1.2.7
 

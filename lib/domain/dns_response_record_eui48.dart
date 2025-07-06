@@ -3,9 +3,6 @@ import 'dart:convert' show jsonEncode;
 import './dns_response_record.dart' show DNSResponseRecord;
 
 
-/**
- *
- */
 class EUI48ResponseRecord extends DNSResponseRecord {
   
     final String name;
@@ -27,8 +24,9 @@ class EUI48ResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
     
-        if (length != 6 || offset + 6 > bytes.length)
+        if (length != 6 || offset + 6 > bytes.length) {
             throw FormatException('Invalid EUI-48 record: expected 6 bytes, got $length.');
+        }
 
         final Uint8List mac = bytes.sublist(offset, offset + 6);
         final String macStr = mac.map((b) => b.toRadixString(16).padLeft(2, '0').toUpperCase()).join('-');

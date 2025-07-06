@@ -1,9 +1,6 @@
 import '../domain/dns_record_type.dart' show DNSRecordType;
 
 
-/**
- *
- */
 class DNSRecordTypes {
 
     static const List<DNSRecordType> records = [

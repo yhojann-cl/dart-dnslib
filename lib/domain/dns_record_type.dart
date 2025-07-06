@@ -19,7 +19,6 @@ class DNSRecordType {
         required this.isObsolete,
     });
 
-    @override
     Map<String, dynamic> toJson() => {
         'name': name,
         'id': id,

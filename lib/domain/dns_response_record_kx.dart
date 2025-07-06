@@ -4,9 +4,6 @@ import './dns_response_record.dart' show DNSResponseRecord;
 import '../helper/dns.dart' show DNSHelper;
 
 
-/**
- *
- */
 class KXResponseRecord extends DNSResponseRecord {
   
     final int preference;
@@ -26,8 +23,9 @@ class KXResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
     
-        if (length < 3 || (offset + 2) >= bytes.length)
+        if (length < 3 || (offset + 2) >= bytes.length) {
             throw FormatException('Invalid KX record: too short');
+        }
 
         final int preference = (bytes[offset] << 8) | bytes[offset + 1];
         final (finalOffset, exchanger) = DNSHelper.parseDomainName(bytes, offset + 2);

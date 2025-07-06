@@ -4,9 +4,6 @@ import './dns_response_record.dart' show DNSResponseRecord;
 import '../helper/dns.dart' show DNSHelper;
 
 
-/**
- *
- */
 class SRVResponseRecord extends DNSResponseRecord {
   
     final int priority;
@@ -30,8 +27,9 @@ class SRVResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
     
-        if ((offset + length) > bytes.length || length < 6)
+        if ((offset + length) > bytes.length || length < 6) {
             throw FormatException('Invalid SRV record: not enough data.');
+        }
 
         final int priority = (bytes[offset] << 8) | bytes[offset + 1];
         final int weight = (bytes[offset + 2] << 8) | bytes[offset + 3];

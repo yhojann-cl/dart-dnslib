@@ -3,9 +3,6 @@ import 'dart:typed_data' show Uint8List;
 import './dns_response_record.dart' show DNSResponseRecord;
 
 
-/**
- *
- */
 class SMIMEAResponseRecord extends DNSResponseRecord {
   
     final int usage;
@@ -29,8 +26,9 @@ class SMIMEAResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
 
-        if (length < 3 || (offset + length) > bytes.length)
+        if (length < 3 || (offset + length) > bytes.length) {
             throw FormatException('Invalid SMIMEA record: expected at least 3 bytes');
+        }
 
         final int usage = bytes[offset];
         final int selector = bytes[offset + 1];

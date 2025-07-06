@@ -4,9 +4,6 @@ import './dns_response_record.dart' show DNSResponseRecord;
 import '../helper/dns.dart' show DNSHelper;
 
 
-/**
- *
- */
 class NSECResponseRecord extends DNSResponseRecord {
   
     final String nextDomainName;
@@ -26,8 +23,9 @@ class NSECResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
 
-        if ((offset + length) > bytes.length)
+        if ((offset + length) > bytes.length) {
             throw FormatException('Invalid NSEC record: RDATA out of range.');
+        }
 
         int i = offset;
 

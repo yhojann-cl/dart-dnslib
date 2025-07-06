@@ -3,9 +3,6 @@ import 'dart:typed_data' show Uint8List;
 import './dns_response_record.dart' show DNSResponseRecord;
 
 
-/**
- *
- */
 class CDSResponseRecord extends DNSResponseRecord {
   
     final String name;
@@ -31,8 +28,9 @@ class CDSResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
     
-        if (length < 4)
+        if (length < 4) {
             throw FormatException('Invalid CDS record: too short');
+        }
 
         final int keyTag = (bytes[offset] << 8) | bytes[offset + 1];
         final int algorithm = bytes[offset + 2];

@@ -3,9 +3,6 @@ import 'dart:typed_data' show Uint8List;
 import './dns_response_record.dart' show DNSResponseRecord;
 
 
-/**
- *
- */
 class CERTResponseRecord extends DNSResponseRecord {
 
     final String name;
@@ -31,8 +28,9 @@ class CERTResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
     
-        if (length < 5 || (offset + length) > bytes.length)
+        if (length < 5 || (offset + length) > bytes.length) {
             throw FormatException('Invalid CERT record: too short or out of bounds.');
+        }
 
         final int certType = (bytes[offset] << 8) | bytes[offset + 1];
         final int keyTag = (bytes[offset + 2] << 8) | bytes[offset + 3];

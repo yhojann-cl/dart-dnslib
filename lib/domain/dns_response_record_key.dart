@@ -3,9 +3,6 @@ import 'dart:convert' show jsonEncode, base64;
 import './dns_response_record.dart' show DNSResponseRecord;
 
 
-/**
- *
- */
 class KEYResponseRecord extends DNSResponseRecord {
   
     final int flags;
@@ -29,8 +26,9 @@ class KEYResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
     
-        if (length < 4 || (offset + 4) > bytes.length)
+        if (length < 4 || (offset + 4) > bytes.length)  {
             throw FormatException('Invalid KEY record: too short');
+        }
 
         final int flags = (bytes[offset] << 8) | bytes[offset + 1];
         final int protocol = bytes[offset + 2];

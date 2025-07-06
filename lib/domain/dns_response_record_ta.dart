@@ -3,10 +3,6 @@ import 'dart:typed_data' show Uint8List;
 import './dns_response_record.dart' show DNSResponseRecord;
 
 
-
-/**
- *
- */
 class TAResponseRecord extends DNSResponseRecord {
 
     final int flags;
@@ -30,8 +26,9 @@ class TAResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
     
-        if ((offset + length) > bytes.length || length < 4)
+        if ((offset + length) > bytes.length || length < 4) {
             throw FormatException('Invalid TA record');
+        }
 
         final int flags = (bytes[offset] << 8) | bytes[offset + 1];
         final int protocol = bytes[offset + 2];

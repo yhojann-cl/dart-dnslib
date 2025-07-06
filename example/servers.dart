@@ -7,7 +7,7 @@ Future<void> main() async {
     print('Executing servers example ...');
 
     // Process each dns server
-    for(DnsServer server in DnsServers.servers) {
+    for(DNSServer server in DNSServers.servers) {
 
         try {
             // Create query
@@ -18,11 +18,12 @@ Future<void> main() async {
                 dnsServer: server,
             );
 
-            for (DNSResponseRecord record in records)
+            for (DNSResponseRecord record in records) {
                 print(record); // By default print in josn format
+            }
         
         } catch(e) {
-            print('DNS server error from ${server.host}: ${e}');
+            print('DNS server error from ${server.host}: $e');
         }
     }
 }

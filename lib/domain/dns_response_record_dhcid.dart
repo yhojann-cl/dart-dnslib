@@ -3,9 +3,6 @@ import 'dart:typed_data' show Uint8List;
 import './dns_response_record.dart' show DNSResponseRecord;
 
 
-/**
- *
- */
 class DHCIDResponseRecord extends DNSResponseRecord {
   
     final String name;
@@ -31,9 +28,9 @@ class DHCIDResponseRecord extends DNSResponseRecord {
         required int offset,
         required int length }) {
 
-        if ((length < 3) ||
-            (offset + length > bytes.length))
+        if ((length < 3) || (offset + length > bytes.length)) {
             throw FormatException('Invalid DHCID record: length too short or out of bounds');
+        }
 
         final int idType = (bytes[offset] << 8) | bytes[offset + 1];
         final int digestAlg = bytes[offset + 2];

@@ -4,9 +4,6 @@ import './dns_response_record.dart' show DNSResponseRecord;
 import '../helper/dns.dart' show DNSHelper;
 
 
-/**
- *
- */
 class HIPResponseRecord extends DNSResponseRecord {
   
     final String name;
@@ -37,8 +34,9 @@ class HIPResponseRecord extends DNSResponseRecord {
         required int length }) {
 
         final int end = offset + length;
-        if (end > bytes.length)
+        if (end > bytes.length) {
             throw FormatException('HIP record overflow');
+        }
 
         final int hitLength = bytes[offset];
         final int algorithm = bytes[offset + 1];
@@ -48,8 +46,9 @@ class HIPResponseRecord extends DNSResponseRecord {
         final int posPK = posHit + hitLength;
         final int posRendezvous = posPK + pkLength;
 
-        if (posRendezvous > end)
+        if (posRendezvous > end) {
             throw FormatException('HIP record truncated');
+        }
 
         final hit = bytes.sublist(posHit, posPK);
         final publicKey = bytes.sublist(posPK, posRendezvous);
