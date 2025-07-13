@@ -48,6 +48,9 @@ class SMIMEAResponseRecord extends DNSResponseRecord {
     String get type => 'SMIMEA';
 
     @override
+    String get representation => '$usage $selector $matchingType ${base64Encode(certificate)}';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

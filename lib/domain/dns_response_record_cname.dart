@@ -39,6 +39,9 @@ class CNAMEResponseRecord extends DNSResponseRecord {
     String get type => 'CNAME';
 
     @override
+    String get representation => canonicalName;
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

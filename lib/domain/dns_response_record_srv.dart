@@ -50,6 +50,9 @@ class SRVResponseRecord extends DNSResponseRecord {
     String get type => 'SRV';
 
     @override
+    String get representation => '$priority $weight $port $target';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

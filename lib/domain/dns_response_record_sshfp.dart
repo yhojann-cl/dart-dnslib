@@ -40,12 +40,13 @@ class SSHFPResponseRecord extends DNSResponseRecord {
             fingerprint: fingerprint);
     }
 
-    /// Retorna la huella digital en formato hexadecimal legible.
-    static String fingerprintToHex(Uint8List data) =>
-      data.map((b) => b.toRadixString(16).padLeft(2, '0')).join('');
-
     @override
     String get type => 'SSHFP';
+
+    @override
+    String get representation => '$algorithm $fingerprintType ${fingerprint
+        .map((b) => b.toRadixString(16).padLeft(2, '0'))
+        .join('')}';
 
     @override
     Map<String, dynamic> toJson() => {
@@ -54,7 +55,9 @@ class SSHFPResponseRecord extends DNSResponseRecord {
         'ttl': ttl,
         'algorithm': algorithm,
         'fingerprintType': fingerprintType,
-        'fingerprint': fingerprintToHex(fingerprint),
+        'fingerprint': fingerprint
+            .map((b) => b.toRadixString(16).padLeft(2, '0'))
+            .join(''),
     };
     
     @override

@@ -143,6 +143,11 @@ class HTTPSResponseRecord extends DNSResponseRecord {
     String get type => 'HTTPS';
 
     @override
+    String get representation => '$priority $targetName ${params.entries
+        .map((entry) => '${entry.key}=${entry.value}')
+        .join(' ')}';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

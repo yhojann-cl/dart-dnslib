@@ -41,6 +41,9 @@ class RPResponseRecord extends DNSResponseRecord {
     String get type => 'RP';
 
     @override
+    String get representation => '$mboxDName $txtDName';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

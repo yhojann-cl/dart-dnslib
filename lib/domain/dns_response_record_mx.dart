@@ -46,6 +46,9 @@ class MXResponseRecord extends DNSResponseRecord {
     String get type => 'MX';
 
     @override
+    String get representation => '$preference $exchange';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

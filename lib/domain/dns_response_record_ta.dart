@@ -49,6 +49,11 @@ class TAResponseRecord extends DNSResponseRecord {
     String get type => 'TA';
 
     @override
+    String get representation => '$flags $protocol $algorithm ${publicKey
+        .map((b) => b.toRadixString(16).padLeft(2, '0'))
+        .join('')}';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

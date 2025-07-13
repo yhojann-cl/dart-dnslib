@@ -69,6 +69,9 @@ class SOAResponseRecord extends DNSResponseRecord {
     String get type => 'SOA';
 
     @override
+    String get representation => '$mname $rname $serial $refresh $retry $expire $minimum';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

@@ -42,6 +42,9 @@ class EUI64ResponseRecord extends DNSResponseRecord {
     String get type => 'EUI64';
 
     @override
+    String get representation => macAddress;
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

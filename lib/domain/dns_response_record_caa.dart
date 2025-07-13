@@ -52,6 +52,9 @@ class CAAResponseRecord extends DNSResponseRecord {
     String get type => 'CAA';
 
     @override
+    String get representation => '$flags $tag "$value"';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

@@ -50,6 +50,9 @@ class CERTResponseRecord extends DNSResponseRecord {
     String get type => 'CERT';
 
     @override
+    String get representation => '$certificateType $keyTag $algorithm ${base64.encode(certificate)}';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

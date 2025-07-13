@@ -44,6 +44,9 @@ class URIResponseRecord extends DNSResponseRecord {
     String get type => 'URI';
 
     @override
+    String get representation => '$priority $weight $target';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

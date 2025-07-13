@@ -49,6 +49,9 @@ class AAAAResponseRecord extends DNSResponseRecord {
     String get type => 'AAAA';
 
     @override
+    String get representation => ip.address;
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

@@ -77,6 +77,13 @@ class HIPResponseRecord extends DNSResponseRecord {
     String get type => 'HIP';
 
     @override
+    String get representation => '$algorithm ${hit // to hex
+        .map((b) => b.toRadixString(16).padLeft(2, '0'))
+        .join('')} ${publicKey // to hex
+        .map((b) => b.toRadixString(16).padLeft(2, '0'))
+        .join('')} $rendezvousServers';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

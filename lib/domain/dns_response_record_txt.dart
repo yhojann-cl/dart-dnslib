@@ -51,6 +51,9 @@ class TXTResponseRecord extends DNSResponseRecord {
     String get type => 'TXT';
 
     @override
+    String get representation => texts.join('\n');
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

@@ -68,6 +68,9 @@ class NAPTRResponseRecord extends DNSResponseRecord {
     String get type => 'NAPTR';
 
     @override
+    String get representation => '$order $preference "$flags" "$services" "$regexp" $replacement';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

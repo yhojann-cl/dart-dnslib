@@ -92,6 +92,11 @@ class SVCBResponseRecord extends DNSResponseRecord {
     String get type => 'SVCB';
 
     @override
+    String get representation => '$priority $target ${params.entries
+        .map((entry) => '${entry.key}=${entry.value}')
+        .join(' ')}';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

@@ -50,6 +50,11 @@ class CDSResponseRecord extends DNSResponseRecord {
     String get type => 'CDS';
 
     @override
+    String get representation => '$keyTag $algorithm $digestType ${digest
+        .map((b) => b.toRadixString(16).padLeft(2, '0'))
+        .join('')}';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

@@ -41,6 +41,9 @@ class KXResponseRecord extends DNSResponseRecord {
     String get type => 'KX';
 
     @override
+    String get representation => '$preference $exchanger';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

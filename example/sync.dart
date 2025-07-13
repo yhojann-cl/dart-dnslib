@@ -8,19 +8,15 @@ Future<void> main() async {
     try{
 
         // Create query
-        List<DNSResponseRecord> records = await DNSClient
-            .query(
-                domain: 'example.com',
-                dnsRecordType: DNSRecordTypes.findByName('A'),
-                dnsServer: DNSServer(
-                    host: '8.8.8.8',
-                    port: 53, // Optional. Value is by default.
-                    protocol: DNSProtocol.tcp,
-                )
+        List<DNSResponseRecord> records = await DNSClient.query(
+            domain: 'example.com',
+            dnsRecordType: DNSRecordTypes.findByName('A'),
+            dnsServer: DNSServer(
+                host: '8.8.8.8',
+                port: 53, // Optional. Value is by default.
+                protocol: DNSProtocol.tcp,
             )
-            .catchError((error) { // Catch any error here
-                throw error;
-            });
+        );
 
         // Process each record
         for (DNSResponseRecord record in records) {

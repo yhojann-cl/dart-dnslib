@@ -29,7 +29,6 @@ class APLPrefix {
             'isMulticast': ip.isMulticast,
             'type': ip.type.name,
         },
-        'alias': '${negation ? '!' : ''}$family:${ip.address}/$prefix'
     };
 
     @override
@@ -110,6 +109,11 @@ class APLResponseRecord extends DNSResponseRecord {
 
     @override
     String get type => 'APL';
+
+    @override
+    String get representation => prefixes
+        .map((p) => '${p.negation ? '!' : ''}${p.family}:${p.ip.address}/${p.prefix}')
+        .join('\n');
 
     @override
     Map<String, dynamic> toJson() => {

@@ -54,6 +54,11 @@ class NSEC3PARAMResponseRecord extends DNSResponseRecord {
     String get type => 'NSEC3PARAM';
 
     @override
+    String get representation => '$hashAlgorithm $flags $iterations ${salt
+        .map((b) => b.toRadixString(16).padLeft(2, '0'))
+        .join('')}';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

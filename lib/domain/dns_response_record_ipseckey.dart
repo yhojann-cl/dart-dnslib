@@ -86,6 +86,9 @@ class IPSECKEYResponseRecord extends DNSResponseRecord {
     String get type => 'IPSECKEY';
 
     @override
+    String get representation => '$precedence $gatewayType $algorithm $gateway ${base64.encode(publicKey)}';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

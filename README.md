@@ -57,7 +57,12 @@ You can use a sync method:
 final List<DNSResponseRecord> records = await DNSClient.query( // ...
 ```
 
-You can see more examples in the [example](example/) directory.
+You can see more examples in the [example](example/) directory and execute
+this using:
+
+```bash
+dart run example/tcp.dart
+```
 
 
 ## DNSServer
@@ -107,3 +112,9 @@ class DNSClient {
 
 This project is open source and under active development. Contributions, bug
 reports, and suggestions are welcome via [GitHub](https://github.com/yhojann-cl/dart-dnslib).
+
+---
+
+**Your donation can help sustain this project**.
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=KM2KBE8F982KS)

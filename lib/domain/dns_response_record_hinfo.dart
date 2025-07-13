@@ -63,6 +63,9 @@ class HINFOResponseRecord extends DNSResponseRecord {
     String get type => 'HINFO';
 
     @override
+    String get representation => '"$cpu" "$os"';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

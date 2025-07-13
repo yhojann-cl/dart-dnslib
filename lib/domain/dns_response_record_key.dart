@@ -48,6 +48,9 @@ class KEYResponseRecord extends DNSResponseRecord {
     String get type => 'KEY';
 
     @override
+    String get representation => '$flags $protocol $algorithm ${base64.encode(publicKey)}';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

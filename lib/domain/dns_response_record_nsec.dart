@@ -60,6 +60,9 @@ class NSECResponseRecord extends DNSResponseRecord {
     String get type => 'NSEC';
 
     @override
+    String get representation => '$nextDomainName ${types.join(' ')}';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

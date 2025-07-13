@@ -9,5 +9,6 @@ abstract class DNSResponseRecord {
     });
 
     Map<String, dynamic> toJson();
+    String get representation;
     String get type;
 }

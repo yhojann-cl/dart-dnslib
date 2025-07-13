@@ -50,6 +50,9 @@ class DHCIDResponseRecord extends DNSResponseRecord {
     String get type => 'DHCID';
 
     @override
+    String get representation => '$identifierType $digestAlgorithm $base64';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

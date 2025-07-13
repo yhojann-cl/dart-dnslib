@@ -57,6 +57,9 @@ class DLVResponseRecord extends DNSResponseRecord {
     String get type => 'DLV';
 
     @override
+    String get representation => '$keyTag $algorithm $digestType $hexDigest';
+
+    @override
     Map<String, dynamic> toJson() => {
         'type': type,
         'name': name,

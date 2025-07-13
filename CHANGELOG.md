@@ -1,3 +1,7 @@
+## 1.2.9
+
+- Add a single representation in plain string for the response values.
+
 ## 1.2.8
 
 - Class name homologation using case sensitive.
