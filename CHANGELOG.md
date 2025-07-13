@@ -1,3 +1,7 @@
+## 1.2.10
+
+- Fix DNSKEY string representation from byte array to base64.
+
 ## 1.2.9
 
 - Add a single representation in plain string for the response values.
